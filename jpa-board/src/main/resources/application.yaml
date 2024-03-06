@@ -29,6 +29,3 @@ spring:
   #thymeleaf3.decoupled-logic: true
 
 ---
-
-spring:
-  config.activate.on-profile: testDB
