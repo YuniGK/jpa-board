@@ -1,0 +1,39 @@
+package org.test.board.jpaboard.repository;
+
+import com.querydsl.core.types.dsl.DateTimeExpression;
+import com.querydsl.core.types.dsl.StringExpression;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
+import org.springframework.data.querydsl.binding.QuerydslBindings;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.test.board.jpaboard.domain.Article;
+import org.test.board.jpaboard.domain.QArticle;
+
+@RepositoryRestResource
+//컨트롤러를 만들지 않아도, 내부적으로 Rest API를 만들 수 있다.
+public interface ArticleRepository extends JpaRepository<Article, Long>
+    , QuerydslPredicateExecutor<Article>
+    , QuerydslBinderCustomizer<QArticle>
+{
+    /*
+    Page<Article> findByTitleContaining(String title, Pageable pageable);
+    Page<Article> findByContentContaining(String content, Pageable pageable);
+    Page<Article> findByUserAccount_UserIdContaining(String userId, Pageable pageable);
+    Page<Article> findByUserAccount_NicknameContaining(String nickname, Pageable pageable);
+
+    void deleteByIdAndUserAccount_UserId(Long articleId, String userid);
+    */
+    @Override
+    default void customize(QuerydslBindings bindings, QArticle root){
+        bindings.excludeUnlistedProperties(true);
+        bindings.including(root.title, root.content, root.hashtag, root.createdAt, root.createdBy);
+        bindings.bind(root.title).first(StringExpression::containsIgnoreCase);
+        bindings.bind(root.content).first(StringExpression::containsIgnoreCase);
+        bindings.bind(root.hashtag).first(StringExpression::containsIgnoreCase);
+        bindings.bind(root.createdAt).first(DateTimeExpression::eq);
+        bindings.bind(root.createdBy).first(StringExpression::containsIgnoreCase);
+    };
+}
