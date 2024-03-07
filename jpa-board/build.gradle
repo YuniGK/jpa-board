@@ -33,6 +33,7 @@ Thymeleaf
 Rest Repositories HAL Explorer
 Rest Repositories
 QueryDsl
+Spring Configuration Processor
 */
 
 dependencies {
@@ -44,6 +45,7 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     runtimeOnly 'com.h2database:h2'
