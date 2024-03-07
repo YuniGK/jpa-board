@@ -6,12 +6,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.test.board.jpaboard.domain.constant.SearchType;
 import org.test.board.jpaboard.domain.dto.ArticleDto;
 import org.test.board.jpaboard.repository.ArticleRepository;
 import org.test.board.jpaboard.repository.UserAccountRepository;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -30,9 +30,10 @@ class ArticleServiceTest {
     @Test
     void givenSearchParameters_whenSearchingArticles_thenReturnsArticleList() {
         //given
+        Pageable pageable = Pageable.ofSize(20);
 
         //when
-        List<ArticleDto> articles = sut.searchArticles(SearchType.TITLE, "Search Keyword");
+        Page<ArticleDto> articles = sut.searchArticles(SearchType.TITLE, "Search Keyword", pageable);
 
         //then
         assertThat(articles).isNotNull();
@@ -45,10 +46,10 @@ class ArticleServiceTest {
         Long articleId = 1L;
 
         //when
-        ArticleDto articles = sut.searchArticles(articleId);
+        ArticleDto article = sut.searchArticle(articleId);
 
         //then
-        assertThat(articles).isNotNull();
+        assertThat(article).isNotNull();
     }
 
 }
