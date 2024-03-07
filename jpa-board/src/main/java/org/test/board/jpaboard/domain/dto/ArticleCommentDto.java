@@ -1,4 +1,6 @@
-package org.test.board.jpaboard.domain;
+package org.test.board.jpaboard.domain.dto;
+
+import org.test.board.jpaboard.domain.Article;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
