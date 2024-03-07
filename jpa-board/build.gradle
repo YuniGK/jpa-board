@@ -31,6 +31,7 @@ MySQL Driver
 Spring Data JPA
 Thymeleaf
 Rest Repositories HAL Explorer
+Rest Repositories
 */
 
 dependencies {
