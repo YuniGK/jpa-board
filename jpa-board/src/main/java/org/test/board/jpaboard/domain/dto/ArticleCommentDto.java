@@ -6,11 +6,20 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public record ArticleCommentDto(
-     Article article
-    , String content
-    , LocalDateTime createdAt
-    , String createdBy
-    , LocalDateTime modifiedAt
-    , String modifiedBy
-) implements Serializable {
+        Long id
+        , Long articleId
+        , String content
+        , LocalDateTime createdAt
+        , String createdBy
+        , LocalDateTime modifiedAt
+        , String modifiedBy
+) {
+
+    public static ArticleCommentDto of(Long articleId, String content) {
+        return ArticleCommentDto.of(articleId, content, null, null, null, null);
+    }
+
+    public static ArticleCommentDto of(Long articleId, String content, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
+        return ArticleCommentDto.of(articleId, content, createdAt, createdBy, modifiedAt, modifiedBy);
+    }
 }

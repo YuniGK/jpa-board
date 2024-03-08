@@ -26,4 +26,13 @@ public class ArticleService {
     public ArticleDto searchArticle(Long articleId) {
         return null;
     }
+
+    public void saveArtice(ArticleDto dto) {
+    }
+
+    public void updateArtice(long articleId, ArticleDto dto) {
+    }
+
+    public void deleteArtice(long articleId) {
+    }
 }
