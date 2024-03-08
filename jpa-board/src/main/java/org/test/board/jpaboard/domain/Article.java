@@ -4,12 +4,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Getter
-@ToString(exclude = "articleComments")
+@ToString(callSuper = true, exclude = "articleComments")
 @Table(indexes = {
         @Index(columnList = "title")
         , @Index(columnList = "createdAt")
@@ -28,20 +29,24 @@ public class Article extends AuditingFields{
     @Setter
     private String hashtag;
 
+    @Setter @ManyToOne(optional = false) @JoinColumn(name = "userId")
+    private UserAccount userAccount;
+
     /* 댓글 -> 글 참조 OK, 글에서 댓글 리스트 뽑는 것은 비효율적이기에, 해당 부분에서 끊어준다. */
     @OrderBy("createdAt DESC")
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
-    private Set<ArticleComment> articleComments = new HashSet<>();
+    private final Set<ArticleComment> articleComments = new LinkedHashSet<>();
 
-    private Article(String title, String content, String hashtag) {
+    private Article(UserAccount userAccount, String title, String content, String hashtag) {
+        this.userAccount = userAccount;
         this.title = title;
         this.content = content;
         this.hashtag = hashtag;
     }
 
     //도메인 Article 생성시 사용
-    public static Article of(String title, String content, String hashtag) {
-        return new Article(title, content, hashtag);
+    public static Article of(UserAccount userAccount, String title, String content, String hashtag) {
+        return new Article(userAccount, title, content, hashtag);
     }
 
     @Override

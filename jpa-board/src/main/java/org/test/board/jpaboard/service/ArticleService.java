@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.test.board.jpaboard.domain.constant.SearchType;
 import org.test.board.jpaboard.domain.dto.ArticleDto;
+import org.test.board.jpaboard.domain.dto.ArticleWithCommentsDto;
 import org.test.board.jpaboard.repository.ArticleRepository;
 
 @Slf4j
@@ -23,16 +24,16 @@ public class ArticleService {
     }
 
     @Transactional(readOnly = true)
-    public ArticleDto searchArticle(Long articleId) {
+    public ArticleWithCommentsDto getArticle(Long articleId) {
         return null;
     }
 
-    public void saveArtice(ArticleDto dto) {
+    public void saveArticle(ArticleDto dto) {
     }
 
-    public void updateArtice(long articleId, ArticleDto dto) {
+    public void updateArticle(ArticleDto dto) {
     }
 
-    public void deleteArtice(long articleId) {
+    public void deleteArticle(long articleId) {
     }
 }
