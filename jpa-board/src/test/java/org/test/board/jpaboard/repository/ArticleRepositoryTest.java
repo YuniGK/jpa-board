@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.test.board.jpaboard.config.JpaConfig;
 import org.test.board.jpaboard.domain.Article;
+import org.test.board.jpaboard.domain.UserAccount;
 
 import java.util.List;
 
@@ -35,11 +36,15 @@ spring:
 class ArticleRepositoryTest {
     private final ArticleRepository articleRepository;
     private final ArticleCommentRepository articleCommentRepository;
+    private final UserAccountRepository userAccountRepository;
 
     public ArticleRepositoryTest(@Autowired ArticleRepository articleRepository
-            , @Autowired ArticleCommentRepository articleCommentRepository) {
+            , @Autowired ArticleCommentRepository articleCommentRepository
+            , @Autowired UserAccountRepository userAccountRepository
+    ) {
         this.articleRepository = articleRepository;
         this.articleCommentRepository = articleCommentRepository;
+        this.userAccountRepository = userAccountRepository;
     }
 
     @DisplayName("select 테스트")
@@ -61,10 +66,13 @@ class ArticleRepositoryTest {
     void givenTest_whenInsert_thenWorks(){
         //Given
         Long previousCount = articleRepository.count();
-        Article article = Article.of("title", "content", "hashtag");
+
+        UserAccount userAccount = userAccountRepository.save(UserAccount.of("yuni", "pw", null, null, null));
+
+        Article article = Article.of(userAccount, "title", "content", "#hashtag");
 
         //When
-        Article savedArticle = articleRepository.saveAndFlush(article);
+        Article savedArticle = articleRepository.save(article);
 
         //Then
         assertThat(articleRepository.count()).isEqualTo(previousCount+1);
@@ -74,11 +82,9 @@ class ArticleRepositoryTest {
     @Test
     void givenTest_whenUpdate_thenWorks(){
         //Given
-        Article savedArticle = articleRepository.save(Article.of("title", "content", "hashtag"));
-
         Article article = articleRepository.findById(1L).orElseThrow();
 
-        String updatedHashtag = "new hashtag";
+        String updatedHashtag = "#new hashtag";
         article.setHashtag(updatedHashtag);
 
         //When
@@ -93,8 +99,6 @@ class ArticleRepositoryTest {
     @Test
     void givenTest_whenDelete_thenWorks(){
         //Given
-        Article savedArticle = articleRepository.save(Article.of("title", "content", "hashtag"));
-
         Article article = articleRepository.findById(1L).orElseThrow();
 
         Long previousArticleCount = articleRepository.count();
