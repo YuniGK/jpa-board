@@ -15,12 +15,16 @@ import org.test.board.jpaboard.domain.constant.SearchType;
 import org.test.board.jpaboard.domain.dto.response.ArticleResponse;
 import org.test.board.jpaboard.domain.dto.response.ArticleWithCommentResponse;
 import org.test.board.jpaboard.service.ArticleService;
+import org.test.board.jpaboard.service.PaginationService;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/articles")
 @Controller
 public class ArticleController {
     private final ArticleService articleService;
+    private final PaginationService paginationService;
 
     @GetMapping
     public String articles(
@@ -32,7 +36,13 @@ public class ArticleController {
         Page<ArticleResponse> articles = articleService.searchArticles(searchType, searchValue, pageable)
                 .map(ArticleResponse::from);
 
+        List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), articles.getTotalPages());
+
         map.addAttribute("articles", articles);
+        map.addAttribute("paginationBarNumbers", barNumbers);
+        map.addAttribute("searchTypes", SearchType.values());
+        map.addAttribute("searchTypeHashtag", SearchType.HASHTAG);
+
         return "articles/index";
     }
 
