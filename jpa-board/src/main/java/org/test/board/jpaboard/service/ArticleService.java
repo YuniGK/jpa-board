@@ -1,15 +1,19 @@
 package org.test.board.jpaboard.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.test.board.jpaboard.domain.Article;
 import org.test.board.jpaboard.domain.constant.SearchType;
 import org.test.board.jpaboard.domain.dto.ArticleDto;
 import org.test.board.jpaboard.domain.dto.ArticleWithCommentsDto;
 import org.test.board.jpaboard.repository.ArticleRepository;
+
+import java.util.Arrays;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -20,20 +24,49 @@ public class ArticleService {
 
     @Transactional(readOnly = true)
     public Page<ArticleDto> searchArticles(SearchType searchType, String searchKeyword, Pageable pageable) {
-        return Page.empty();
+        if(searchKeyword == null || searchKeyword.isBlank()){
+            return articleRepository.findAll(pageable).map(ArticleDto::from);
+        }
+        return switch (searchType) {
+            case TITLE -> articleRepository.findByTitleContaining(searchKeyword, pageable).map(ArticleDto::from);
+            case CONTENT -> articleRepository.findByContentContaining(searchKeyword, pageable).map(ArticleDto::from);
+            case ID -> articleRepository.findByUserAccount_UserIdContaining(searchKeyword, pageable).map(ArticleDto::from);
+            case NICKNAME -> articleRepository.findByUserAccount_NicknameContaining(searchKeyword, pageable).map(ArticleDto::from);
+            case HASHTAG -> articleRepository.findByHashtag(searchKeyword, pageable).map(ArticleDto::from);
+        };
     }
 
     @Transactional(readOnly = true)
     public ArticleWithCommentsDto getArticle(Long articleId) {
-        return null;
+        return articleRepository.findById(articleId).map(ArticleWithCommentsDto::from)
+                .orElseThrow(()-> new EntityNotFoundException("게시글이 없습니다. articleId :: "+articleId));
     }
 
     public void saveArticle(ArticleDto dto) {
+        //dto -> entity
+        articleRepository.save(dto.toEntity());
     }
 
     public void updateArticle(ArticleDto dto) {
+        try {
+            //이전의 getOne()과 getReferenceById 동일하다.
+            Article article = articleRepository.getReferenceById(dto.id());
+
+            if(dto.title() != null){
+                article.setTitle(dto.title());
+            }
+            if(dto.content() != null){
+                article.setContent(dto.content());
+            }
+            article.setHashtag(dto.hashtag());
+        }catch (EntityNotFoundException e){
+            log.warn("게시글 업데이트 실패, 게시글을 찾을 수 없습니다. - dto :: {}", dto);
+        }
+
+        /* 트랜젝션에 의해 데이터 변경을 인식하고 저장되어 save()를 사용하지 않고 있다. */
     }
 
     public void deleteArticle(long articleId) {
+        articleRepository.deleteById(articleId);
     }
 }
