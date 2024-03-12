@@ -14,6 +14,8 @@ import org.test.board.jpaboard.domain.dto.ArticleWithCommentsDto;
 import org.test.board.jpaboard.repository.ArticleRepository;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -68,5 +70,22 @@ public class ArticleService {
 
     public void deleteArticle(long articleId) {
         articleRepository.deleteById(articleId);
+    }
+
+    public Long getArticleCount(){
+        return articleRepository.count();
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ArticleDto> searchArticlesViaHashtag(String hashtag, Pageable pageable){
+        if(hashtag == null || hashtag.isBlank()){
+            return Page.empty(pageable);
+        }
+        return articleRepository.findByHashtag(hashtag, pageable)
+                .map(ArticleDto::from);
+    }
+
+    public List<String> getHashtags(){
+        return articleRepository.findAllDistinctHashtags();
     }
 }
