@@ -67,7 +67,7 @@ class ArticleRepositoryTest {
         //Given
         Long previousCount = articleRepository.count();
 
-        UserAccount userAccount = userAccountRepository.save(UserAccount.of("yuni", "pw", null, null, null));
+        UserAccount userAccount = userAccountRepository.save(UserAccount.of("newYuni", "pw", null, null, null));
 
         Article article = Article.of(userAccount, "title", "content", "#hashtag");
 
