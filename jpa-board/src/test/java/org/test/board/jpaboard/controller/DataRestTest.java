@@ -20,18 +20,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @SpringBootTest
 public class DataRestTest {
+
     private final MockMvc mvc;
 
-    DataRestTest(@Autowired MockMvc mvc) {
+    public DataRestTest(@Autowired MockMvc mvc) {
         this.mvc = mvc;
     }
+
 
     @DisplayName("[api] 게시글 리스트 조회")
     @Test
     void givenNothing_whenRequestingArticles_thenReturnsArticlesJsonResponse() throws Exception {
-        //given
+        // Given
 
-        //when & then
+        // When & Then
         mvc.perform(get("/api/articles"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.valueOf("application/hal+json")));
@@ -94,4 +96,5 @@ public class DataRestTest {
         mvc.perform(delete("/api/userAccounts")).andExpect(status().isNotFound());
         mvc.perform(head("/api/userAccounts")).andExpect(status().isNotFound());
     }
+
 }
