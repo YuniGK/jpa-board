@@ -8,6 +8,7 @@ import java.util.List;
 
 public class ArticleRepositoryCustomImpl extends QuerydslRepositorySupport implements ArticleRepositoryCustom {
 
+
     public ArticleRepositoryCustomImpl() {
         super(Article.class);
     }

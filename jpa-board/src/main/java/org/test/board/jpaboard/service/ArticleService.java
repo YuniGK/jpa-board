@@ -97,7 +97,7 @@ public class ArticleService {
                 .map(ArticleDto::from);
     }
 
-    public List<String> getHashtags(){
+    public List<String> getHashtags() {
         return articleRepository.findAllDistinctHashtags();
     }
 }
