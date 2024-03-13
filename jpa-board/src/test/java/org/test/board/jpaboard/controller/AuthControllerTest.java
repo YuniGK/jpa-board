@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.test.board.jpaboard.service.ArticleService;
+import org.test.board.jpaboard.service.PaginationService;
 
 import static org.mockito.BDDMockito.then;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -19,8 +20,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AuthControllerTest {
     private final MockMvc mvc;
 
-    @MockBean
-    private ArticleService articleService;
+    @MockBean private ArticleService articleService;
+    @MockBean private PaginationService paginationService;
 
     AuthControllerTest(@Autowired MockMvc mvc) {
         this.mvc = mvc;
@@ -36,5 +37,7 @@ public class AuthControllerTest {
         mvc.perform(get("/login"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML));
+        then(articleService).shouldHaveNoInteractions();
+        then(paginationService).shouldHaveNoInteractions();
     }
 }
