@@ -9,5 +9,4 @@
 * https://www.thymeleaf.org/doc/tutorials/3.1/usingthymeleaf.html
 * https://www.thymeleaf.org/doc/tutorials/3.1/thymeleafspring.html#integrating-thymeleaf-with-spring  
 #  
-#  
 * https://github.com/thymeleaf/thymeleaf-extras-springsecurity
