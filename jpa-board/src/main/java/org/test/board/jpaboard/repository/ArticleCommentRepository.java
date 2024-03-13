@@ -13,7 +13,8 @@ import org.test.board.jpaboard.domain.QArticleComment;
 import java.util.List;
 
 @RepositoryRestResource
-public interface ArticleCommentRepository extends JpaRepository<ArticleComment, Long>
+public interface ArticleCommentRepository extends
+        JpaRepository<ArticleComment, Long>
         , QuerydslPredicateExecutor<ArticleComment>
         , QuerydslBinderCustomizer<QArticleComment>
 {
