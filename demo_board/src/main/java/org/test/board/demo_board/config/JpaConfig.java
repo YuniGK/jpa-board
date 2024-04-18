@@ -15,5 +15,13 @@ public class JpaConfig {
     @Bean
     public AuditorAware<String> auditorAware(){
         return null;
+       /*
+        return () -> Optional.ofNullable(SecurityContextHolder.getContext())
+                .map(SecurityContext::getAuthentication)
+                .filter(Authentication::isAuthenticated)
+                .map(Authentication::getPrincipal)
+                .map(BoardAdminPrincipal.class::cast)
+                .map(BoardAdminPrincipal::getUsername);
+        */
     }
 }
