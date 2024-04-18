@@ -2,7 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=intellij+all,java,macos,windows,visualstudio,visualstudiocode,dbeaver
 
 ### QueryDsl ###
-.src/generated
+.src/main/generated
 
 ### DBeaver ###
 # ide config file
