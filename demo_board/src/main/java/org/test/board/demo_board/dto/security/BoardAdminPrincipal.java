@@ -3,6 +3,7 @@ package org.test.board.demo_board.dto.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.test.board.demo_board.domain.constant.RoleType;
 import org.test.board.demo_board.dto.UserAccountDto;
 
@@ -19,12 +20,12 @@ public record BoardAdminPrincipal(
         String nickname,
         String memo,
         Map<String, Object> oAuth2Attributes
-) {
-    public static BoardAdminPrincipal of(String username, String password, Set<RoleType> roleTypes, String email, String nickname, String memo) {
-        return BoardAdminPrincipal.of(username, password, roleTypes, email, nickname, memo);
+) implements OAuth2User, UserDetails {
+    public static BoardAdminPrincipal of(String username, String password, Set<RoleType> roleTypes, String email, String nickname, String memo, Map<String, Object> oAuth2Attributes) {
+        return BoardAdminPrincipal.of(username, password, roleTypes, email, nickname, memo, Map.of());
     }
 
-    public static BoardAdminPrincipal of(String username, String password, Set<RoleType> roleTypes, String email, String nickname, String memo) {
+    public static BoardAdminPrincipal of(String username, String password, Set<RoleType> roleTypes, String email, String nickname, String memo, Map<String, Object> oAuth2Attributes) {
         return new BoardAdminPrincipal(
                 username,
                 password,
@@ -35,7 +36,8 @@ public record BoardAdminPrincipal(
                 ,
                 email,
                 nickname,
-                memo
+                memo,
+                oAuth2Attributes
         );
     }
 

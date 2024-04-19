@@ -35,17 +35,18 @@ public class UserAccount extends AuditingFields{
     @Setter
     private String memo;
 
-    private UserAccount(String userId, String userPassword, Set<RoleType> roleTypes, String email, String nickname, String memo) {
+    private UserAccount(String userId, String userPassword, Set<RoleType> roleTypes, String email, String nickname, String memo, String createdBy) {
         this.userId = userId;
         this.userPassword = userPassword;
         this.roleTypes = roleTypes;
         this.email = email;
         this.nickname = nickname;
         this.memo = memo;
+        this.createdBy = createdBy;
     }
 
-    public static UserAccount of(String userId, String userPassword, Set<RoleType> roleTypes, String email, String nickname, String memo, String createdBy) {
-        return new UserAccount(userId, userPassword, roleTypes, email, nickname, memo, null);
+    public static UserAccount of(String userId, String userPassword, Set<RoleType> roleTypes, String email, String nickname, String memo) {
+        return UserAccount.of(userId, userPassword, roleTypes, email, nickname, memo, null);
     }
 
     public static UserAccount of(String userId, String userPassword, Set<RoleType> roleTypes, String email, String nickname, String memo, String createdBy) {
