@@ -1,15 +1,20 @@
 package org.test.board.demo_board.config;
 
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.test.board.demo_board.domain.constant.RoleType;
 
+import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @Configuration
@@ -18,7 +23,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         /* https://velog.io/@shon5544/Spring-Security-1.-%EC%84%A4%EC%A0%95 - 참고 */
-        http
+
+        String[] rolesAboveManager = {RoleType.MANAGER.name(), RoleType.DEVELOPER.name(), RoleType.ADMIN.name()};
+
+        return http
                 //csrf 설정
                 .csrf((csrf) ->
                     csrf.disable()
@@ -36,10 +44,30 @@ public class SecurityConfig {
                 * .anyRequest() : requestMatchers()에 적힌 path들을 제외하고 나머지 모든 경로
                 * .authenticated() : 일단 인증만 되어있으면 해당 path 요청을 마음대로 할 수 있다.
                 * */
-                .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers(antMatcher("/")).permitAll()
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/**").hasAnyRole(rolesAboveManager)
+                        .requestMatchers(HttpMethod.DELETE, "/**").hasAnyRole(rolesAboveManager)
                         .anyRequest().authenticated()
-                );
-        return http.build();
+                )
+                .formLogin(withDefaults())
+                .logout(logout -> logout.logoutSuccessUrl("/"))
+                .build();
+    }
+
+    /*
+    @Bean
+    public UserDetailsService userDetailsService(AdminAccountService adminAccountService) {
+        return username -> adminAccountService
+                .searchUser(username)
+                .map(BoardAdminPrincipal::from)
+                .orElseThrow(() -> new UsernameNotFoundException("유저를 찾을 수 없습니다 - username: " + username));
+    }
+    */
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }
