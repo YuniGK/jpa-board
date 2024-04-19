@@ -2,7 +2,13 @@ package org.test.board.demo_board.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.test.board.demo_board.domain.constant.RoleType;
+import org.test.board.demo_board.domain.converter.RoleTypesConverter;
+
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @ToString
@@ -20,22 +26,45 @@ public class UserAccount extends AuditingFields{
 
     @Setter @Column(nullable = false) private String userPassword;
 
+    @Convert(converter = RoleTypesConverter.class)
+    @Column(nullable = false)
+    private Set<RoleType> roleTypes = new LinkedHashSet<>();
+
     @Setter @Column(length = 100) private String email;
     @Setter @Column(length = 100) private String nickname;
     @Setter
     private String memo;
 
-    private UserAccount(String userId, String userPassword, String email, String nickname, String memo) {
+    private UserAccount(String userId, String userPassword, Set<RoleType> roleTypes, String email, String nickname, String memo) {
         this.userId = userId;
         this.userPassword = userPassword;
+        this.roleTypes = roleTypes;
         this.email = email;
         this.nickname = nickname;
         this.memo = memo;
     }
 
-    public static UserAccount of(String userId, String userPassword, String email, String nickname, String memo) {
-        return new UserAccount(userId, userPassword, email, nickname, memo);
+    public static UserAccount of(String userId, String userPassword, Set<RoleType> roleTypes, String email, String nickname, String memo, String createdBy) {
+        return new UserAccount(userId, userPassword, roleTypes, email, nickname, memo, null);
     }
+
+    public static UserAccount of(String userId, String userPassword, Set<RoleType> roleTypes, String email, String nickname, String memo, String createdBy) {
+        return new UserAccount(userId, userPassword, roleTypes, email, nickname, memo, createdBy);
+    }
+
+    /* --- */
+    public void addRoleType(RoleType roleType) {
+        this.getRoleTypes().add(roleType);
+    }
+
+    public void addRoleTypes(Collection<RoleType> roleTypes) {
+        this.getRoleTypes().addAll(roleTypes);
+    }
+
+    public void removeRoleType(RoleType roleType) {
+        this.getRoleTypes().remove(roleType);
+    }
+    /* --- */
 
     @Override
     public boolean equals(Object o) {
