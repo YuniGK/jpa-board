@@ -13,6 +13,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.test.board.demo_board.domain.constant.RoleType;
+import org.test.board.demo_board.dto.security.BoardAdminPrincipal;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
@@ -22,7 +23,8 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        /* https://velog.io/@shon5544/Spring-Security-1.-%EC%84%A4%EC%A0%95 - 참고 */
+        /* https://velog.io/@shon5544/Spring-Security-1.-%EC%84%A4%EC%A0%95
+         https://do5do.tistory.com/20 - 참고 */
 
         String[] rolesAboveManager = {RoleType.MANAGER.name(), RoleType.DEVELOPER.name(), RoleType.ADMIN.name()};
 
@@ -31,10 +33,12 @@ public class SecurityConfig {
                 .csrf((csrf) ->
                     csrf.disable()
                 )
+
                 //세션 설정
                 .sessionManagement((sessionManagement) ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
+
                 //인가 설정
                 /*
                 * .permitAll() : 아무런 권한이 없어도 전부 요청을 사용
@@ -51,20 +55,13 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/**").hasAnyRole(rolesAboveManager)
                         .anyRequest().authenticated()
                 )
+
                 .formLogin(withDefaults())
                 .logout(logout -> logout.logoutSuccessUrl("/"))
+
+                .oauth2Login(withDefaults())
                 .build();
     }
-
-    /*
-    @Bean
-    public UserDetailsService userDetailsService(AdminAccountService adminAccountService) {
-        return username -> adminAccountService
-                .searchUser(username)
-                .map(BoardAdminPrincipal::from)
-                .orElseThrow(() -> new UsernameNotFoundException("유저를 찾을 수 없습니다 - username: " + username));
-    }
-    */
 
     @Bean
     public PasswordEncoder passwordEncoder() {
