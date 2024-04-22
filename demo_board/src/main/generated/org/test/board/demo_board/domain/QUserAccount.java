@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -38,6 +39,12 @@ public class QUserAccount extends EntityPathBase<UserAccount> {
     public final StringPath modifiedBy = _super.modifiedBy;
 
     public final StringPath nickname = createString("nickname");
+
+    public final StringPath provideId = createString("provideId");
+
+    public final StringPath provider = createString("provider");
+
+    public final SetPath<org.test.board.demo_board.domain.constant.RoleType, EnumPath<org.test.board.demo_board.domain.constant.RoleType>> roleTypes = this.<org.test.board.demo_board.domain.constant.RoleType, EnumPath<org.test.board.demo_board.domain.constant.RoleType>>createSet("roleTypes", org.test.board.demo_board.domain.constant.RoleType.class, EnumPath.class, PathInits.DIRECT2);
 
     public final StringPath userId = createString("userId");
 
