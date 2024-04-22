@@ -21,7 +21,7 @@ public record BoardAdminPrincipal(
         String memo,
         Map<String, Object> oAuth2Attributes
 ) implements OAuth2User, UserDetails {
-    public static BoardAdminPrincipal of(String username, String password, Set<RoleType> roleTypes, String email, String nickname, String memo, Map<String, Object> oAuth2Attributes) {
+    public static BoardAdminPrincipal of(String username, String password, Set<RoleType> roleTypes, String email, String nickname, String memo) {
         return BoardAdminPrincipal.of(username, password, roleTypes, email, nickname, memo, Map.of());
     }
 
@@ -66,4 +66,16 @@ public record BoardAdminPrincipal(
                 memo
         );
     }
+
+    @Override public String getUsername() { return username; }
+    @Override public String getPassword() { return password; }
+    @Override public Collection<? extends GrantedAuthority> getAuthorities() { return authorities; }
+    @Override public boolean isAccountNonExpired() { return true; }
+    @Override public boolean isAccountNonLocked() { return true; }
+    @Override public boolean isCredentialsNonExpired() { return true; }
+    @Override public boolean isEnabled() { return true; }
+
+    @Override public Map<String, Object> getAttributes() { return oAuth2Attributes; }
+    @Override public String getName() { return username; }
+
 }

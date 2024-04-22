@@ -13,17 +13,20 @@ public record UserAccountDto(
         String email,
         String nickname,
         String memo,
+        String provider,
+        String provideId,
         LocalDateTime createdAt,
         String createdBy,
         LocalDateTime modifiedAt,
         String modifiedBy
 ) {
     public static UserAccountDto of(String userId, String userPassword, Set<RoleType> roleTypes, String email, String nickname, String memo) {
-        return new UserAccountDto(userId, userPassword, roleTypes, email, nickname, memo, null, null, null, null);
+        return new UserAccountDto(userId, userPassword, roleTypes, email, nickname, memo, null, null, null, null, null, null);
     }
 
-    public static UserAccountDto of(String userId, String userPassword, Set<RoleType> roleTypes, String email, String nickname, String memo, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
-        return new UserAccountDto(userId, userPassword, roleTypes, email, nickname, memo, createdAt, createdBy, modifiedAt, modifiedBy);
+    public static UserAccountDto of(String userId, String userPassword, Set<RoleType> roleTypes, String email, String nickname, String memo
+            , String provider, String provideId, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
+        return new UserAccountDto(userId, userPassword, roleTypes, email, nickname, memo, provider, provideId, createdAt, createdBy, modifiedAt, modifiedBy);
     }
 
     public static UserAccountDto from(UserAccount entity) {
@@ -34,6 +37,8 @@ public record UserAccountDto(
                 entity.getEmail(),
                 entity.getNickname(),
                 entity.getMemo(),
+                entity.getProvider(),
+                entity.getProvideId(),
                 entity.getCreatedAt(),
                 entity.getCreatedBy(),
                 entity.getModifiedAt(),

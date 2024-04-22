@@ -35,22 +35,31 @@ public class UserAccount extends AuditingFields{
     @Setter
     private String memo;
 
-    private UserAccount(String userId, String userPassword, Set<RoleType> roleTypes, String email, String nickname, String memo, String createdBy) {
+    /* 참고 : https://velog.io/@rnqhstlr2297/Spring-Security-OAuth2-%EC%86%8C%EC%85%9C%EB%A1%9C%EA%B7%B8%EC%9D%B8*/
+    private String provider; //어떤 OAuth인지(google, naver 등)
+    private String provideId; // 해당 OAuth 의 key(id)
+
+    private UserAccount(String userId, String userPassword, Set<RoleType> roleTypes
+            , String email, String nickname, String memo, String provider, String provideId
+            , String createdBy) {
         this.userId = userId;
         this.userPassword = userPassword;
         this.roleTypes = roleTypes;
         this.email = email;
         this.nickname = nickname;
         this.memo = memo;
+        this.provider = provider;
+        this.provideId = provideId;
         this.createdBy = createdBy;
     }
 
     public static UserAccount of(String userId, String userPassword, Set<RoleType> roleTypes, String email, String nickname, String memo) {
-        return UserAccount.of(userId, userPassword, roleTypes, email, nickname, memo, null);
+        return UserAccount.of(userId, userPassword, roleTypes, email, nickname, memo, null, null, null);
     }
 
-    public static UserAccount of(String userId, String userPassword, Set<RoleType> roleTypes, String email, String nickname, String memo, String createdBy) {
-        return new UserAccount(userId, userPassword, roleTypes, email, nickname, memo, createdBy);
+    public static UserAccount of(String userId, String userPassword, Set<RoleType> roleTypes, String email, String nickname, String memo
+            , String provider, String provideId, String createdBy) {
+        return new UserAccount(userId, userPassword, roleTypes, email, nickname, memo, provider, provideId, createdBy);
     }
 
     /* --- */

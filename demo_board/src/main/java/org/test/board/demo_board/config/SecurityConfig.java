@@ -22,7 +22,8 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        /* https://velog.io/@shon5544/Spring-Security-1.-%EC%84%A4%EC%A0%95 - 참고 */
+        /* https://velog.io/@shon5544/Spring-Security-1.-%EC%84%A4%EC%A0%95
+         https://do5do.tistory.com/20 - 참고 */
 
         String[] rolesAboveManager = {RoleType.MANAGER.name(), RoleType.DEVELOPER.name(), RoleType.ADMIN.name()};
 
