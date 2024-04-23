@@ -47,8 +47,9 @@ public class ArticleComment extends AuditingFields {
         this.content = content;
     }
 
-    public static ArticleComment of(Article article, UserAccount userAccount, Long parentCommentId, String content) {
-        return new ArticleComment(article, userAccount, parentCommentId, content);
+
+    public static ArticleComment of(Article article, UserAccount userAccount, String content) {
+        return new ArticleComment(article, userAccount, null, content);
     }
 
     /* --- */
