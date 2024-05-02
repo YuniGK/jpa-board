@@ -36,5 +36,6 @@ public class UserAccountService {
     }
 
     public List<UserAccountDto> users() {
+        return List.of();
     }
 }
