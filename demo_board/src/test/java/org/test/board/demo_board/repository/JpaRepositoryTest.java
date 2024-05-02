@@ -119,6 +119,22 @@ class JpaRepositoryTest {
         assertThat(articleCommentRepository.count()).isEqualTo(previousArticleCommentCount - deletedCommentsSize);
     }
 
+    @DisplayName("회원 정보 delete 테스트")
+    @Test
+    void givenAdminAccount_whenDeleting_thenWorksFine() {
+        // Given
+        long previousCount = userAccountRepository.count();
+        UserAccount adminAccount = userAccountRepository.getReferenceById("test");
+
+        // When
+        userAccountRepository.delete(adminAccount);
+
+        // Then
+        assertThat(userAccountRepository.count()).isEqualTo(previousCount - 1);
+    }
+
+    /* TODO 댓글 부분 테스트 구현하기 */
+
     @EnableJpaAuditing
     @TestConfiguration
     static class TestJpaConfig {

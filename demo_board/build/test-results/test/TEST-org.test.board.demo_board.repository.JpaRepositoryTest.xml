@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="JPA 연결 테스트" tests="4" skipped="0" failures="0" errors="0" timestamp="2024-04-30T10:03:05" hostname="Yunui-MacBookAir.local" time="0.617">
+<testsuite name="JPA 연결 테스트" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-05-02T07:32:34" hostname="Yunui-MacBookAir.local" time="0.546">
   <properties/>
-  <testcase name="insert 테스트" classname="org.test.board.demo_board.repository.JpaRepositoryTest" time="0.556"/>
-  <testcase name="select 테스트" classname="org.test.board.demo_board.repository.JpaRepositoryTest" time="0.021"/>
-  <testcase name="delete 테스트" classname="org.test.board.demo_board.repository.JpaRepositoryTest" time="0.018"/>
-  <testcase name="update 테스트" classname="org.test.board.demo_board.repository.JpaRepositoryTest" time="0.016"/>
-  <system-out><![CDATA[19:03:04.254 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration org.test.board.demo_board.DemoBoardApplication for test class org.test.board.demo_board.repository.JpaRepositoryTest
+  <testcase name="회원 정보 delete 테스트" classname="org.test.board.demo_board.repository.JpaRepositoryTest" time="0.546"/>
+  <system-out><![CDATA[16:32:32.816 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration org.test.board.demo_board.DemoBoardApplication for test class org.test.board.demo_board.repository.JpaRepositoryTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -15,17 +12,17 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.4)
 
-2024-04-30T19:03:04.438+09:00  INFO 14942 --- [    Test worker] o.t.b.d.repository.JpaRepositoryTest     : Starting JpaRepositoryTest using Java 21.0.2 with PID 14942 (started by yunkim in /Users/yunkim/Downloads/jpa-board/demo_board)
-2024-04-30T19:03:04.438+09:00  INFO 14942 --- [    Test worker] o.t.b.d.repository.JpaRepositoryTest     : No active profile set, falling back to 1 default profile: "default"
-2024-04-30T19:03:04.704+09:00  INFO 14942 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-04-30T19:03:04.733+09:00  INFO 14942 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 26 ms. Found 4 JPA repository interfaces.
-2024-04-30T19:03:04.759+09:00  INFO 14942 --- [    Test worker] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
-2024-04-30T19:03:04.841+09:00  INFO 14942 --- [    Test worker] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:a6b8dc03-1c12-4551-8893-7f6f1516ebc4;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
-2024-04-30T19:03:04.973+09:00  INFO 14942 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-04-30T19:03:05.002+09:00  INFO 14942 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
-2024-04-30T19:03:05.016+09:00  INFO 14942 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2024-04-30T19:03:05.111+09:00  INFO 14942 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-04-30T19:03:05.614+09:00  INFO 14942 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-05-02T16:32:32.993+09:00  INFO 2602 --- [    Test worker] o.t.b.d.repository.JpaRepositoryTest     : Starting JpaRepositoryTest using Java 21.0.2 with PID 2602 (started by yunkim in /Users/yunkim/Downloads/jpa-board/demo_board)
+2024-05-02T16:32:32.994+09:00  INFO 2602 --- [    Test worker] o.t.b.d.repository.JpaRepositoryTest     : No active profile set, falling back to 1 default profile: "default"
+2024-05-02T16:32:33.284+09:00  INFO 2602 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-05-02T16:32:33.315+09:00  INFO 2602 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 27 ms. Found 4 JPA repository interfaces.
+2024-05-02T16:32:33.340+09:00  INFO 2602 --- [    Test worker] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2024-05-02T16:32:33.432+09:00  INFO 2602 --- [    Test worker] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:b1f0fbcf-9618-446a-9a03-670a9785b5ce;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2024-05-02T16:32:33.580+09:00  INFO 2602 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-05-02T16:32:33.605+09:00  INFO 2602 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-05-02T16:32:33.620+09:00  INFO 2602 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-05-02T16:32:33.713+09:00  INFO 2602 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-05-02T16:32:34.215+09:00  INFO 2602 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 Hibernate: 
     drop table if exists article cascade 
 Hibernate: 
@@ -150,13 +147,13 @@ Hibernate:
        add constraint FK67dybe2dob8uvrr7fyicyb1no 
        foreign key (user_id) 
        references user_account
-2024-04-30T19:03:05.655+09:00  INFO 14942 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-04-30T19:03:05.874+09:00  INFO 14942 --- [    Test worker] o.t.b.d.repository.JpaRepositoryTest     : Started JpaRepositoryTest in 1.585 seconds (process running for 2.148)
+2024-05-02T16:32:34.258+09:00  INFO 2602 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-05-02T16:32:34.519+09:00  INFO 2602 --- [    Test worker] o.t.b.d.repository.JpaRepositoryTest     : Started JpaRepositoryTest in 1.672 seconds (process running for 2.163)
 Hibernate: 
     select
         count(*) 
     from
-        article a1_0
+        user_account ua1_0
 Hibernate: 
     select
         ua1_0.user_id,
@@ -176,213 +173,16 @@ Hibernate:
     where
         ua1_0.user_id=?
 Hibernate: 
-    insert 
-    into
-        user_account
-        (created_at, created_by, email, memo, modified_at, modified_by, nickname, provide_id, provider, role_types, user_password, user_id) 
-    values
-        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-Hibernate: 
-    insert 
-    into
-        article
-        (content, created_at, created_by, modified_at, modified_by, title, user_id, id) 
-    values
-        (?, ?, ?, ?, ?, ?, ?, default)
-Hibernate: 
-    insert 
-    into
-        hashtag
-        (created_at, created_by, hashtag_name, modified_at, modified_by, id) 
-    values
-        (?, ?, ?, ?, ?, default)
-Hibernate: 
-    select
-        count(*) 
-    from
-        article a1_0
-Hibernate: 
-    select
-        a1_0.id,
-        a1_0.content,
-        a1_0.created_at,
-        a1_0.created_by,
-        a1_0.modified_at,
-        a1_0.modified_by,
-        a1_0.title,
-        a1_0.user_id 
-    from
-        article a1_0
-Hibernate: 
-    select
-        ua1_0.user_id,
-        ua1_0.created_at,
-        ua1_0.created_by,
-        ua1_0.email,
-        ua1_0.memo,
-        ua1_0.modified_at,
-        ua1_0.modified_by,
-        ua1_0.nickname,
-        ua1_0.provide_id,
-        ua1_0.provider,
-        ua1_0.role_types,
-        ua1_0.user_password 
-    from
-        user_account ua1_0 
-    where
-        ua1_0.user_id=?
-Hibernate: 
-    select
-        a1_0.id,
-        a1_0.content,
-        a1_0.created_at,
-        a1_0.created_by,
-        a1_0.modified_at,
-        a1_0.modified_by,
-        a1_0.title,
-        a1_0.user_id,
-        ua1_0.user_id,
-        ua1_0.created_at,
-        ua1_0.created_by,
-        ua1_0.email,
-        ua1_0.memo,
-        ua1_0.modified_at,
-        ua1_0.modified_by,
-        ua1_0.nickname,
-        ua1_0.provide_id,
-        ua1_0.provider,
-        ua1_0.role_types,
-        ua1_0.user_password 
-    from
-        article a1_0 
-    join
-        user_account ua1_0 
-            on ua1_0.user_id=a1_0.user_id 
-    where
-        a1_0.id=?
-Hibernate: 
-    select
-        count(*) 
-    from
-        article a1_0
-Hibernate: 
-    select
-        count(*) 
-    from
-        article_comment ac1_0
-Hibernate: 
-    select
-        ac1_0.article_id,
-        ac1_0.id,
-        ac1_0.content,
-        ac1_0.created_at,
-        ac1_0.created_by,
-        ac1_0.modified_at,
-        ac1_0.modified_by,
-        ac1_0.parent_comment_id,
-        ac1_0.user_id,
-        ua1_0.user_id,
-        ua1_0.created_at,
-        ua1_0.created_by,
-        ua1_0.email,
-        ua1_0.memo,
-        ua1_0.modified_at,
-        ua1_0.modified_by,
-        ua1_0.nickname,
-        ua1_0.provide_id,
-        ua1_0.provider,
-        ua1_0.role_types,
-        ua1_0.user_password 
-    from
-        article_comment ac1_0 
-    left join
-        user_account ua1_0 
-            on ua1_0.user_id=ac1_0.user_id 
-    where
-        ac1_0.article_id=? 
-    order by
-        ac1_0.created_at desc
-Hibernate: 
     delete 
     from
-        article_hashtag 
+        user_account 
     where
-        article_id=?
-Hibernate: 
-    delete 
-    from
-        article 
-    where
-        id=?
+        user_id=?
 Hibernate: 
     select
         count(*) 
     from
-        article a1_0
-Hibernate: 
-    select
-        count(*) 
-    from
-        article_comment ac1_0
-Hibernate: 
-    select
-        a1_0.id,
-        a1_0.content,
-        a1_0.created_at,
-        a1_0.created_by,
-        a1_0.modified_at,
-        a1_0.modified_by,
-        a1_0.title,
-        a1_0.user_id,
-        ua1_0.user_id,
-        ua1_0.created_at,
-        ua1_0.created_by,
-        ua1_0.email,
-        ua1_0.memo,
-        ua1_0.modified_at,
-        ua1_0.modified_by,
-        ua1_0.nickname,
-        ua1_0.provide_id,
-        ua1_0.provider,
-        ua1_0.role_types,
-        ua1_0.user_password 
-    from
-        article a1_0 
-    join
-        user_account ua1_0 
-            on ua1_0.user_id=a1_0.user_id 
-    where
-        a1_0.id=?
-Hibernate: 
-    select
-        h1_0.article_id,
-        h1_1.id,
-        h1_1.created_at,
-        h1_1.created_by,
-        h1_1.hashtag_name,
-        h1_1.modified_at,
-        h1_1.modified_by 
-    from
-        article_hashtag h1_0 
-    join
-        hashtag h1_1 
-            on h1_1.id=h1_0.hashtag_id 
-    where
-        h1_0.article_id=?
-Hibernate: 
-    insert 
-    into
-        hashtag
-        (created_at, created_by, hashtag_name, modified_at, modified_by, id) 
-    values
-        (?, ?, ?, ?, ?, default)
-Hibernate: 
-    insert 
-    into
-        article_hashtag
-        (article_id, hashtag_id) 
-    values
-        (?, ?)
+        user_account ua1_0
 ]]></system-out>
   <system-err><![CDATA[WARNING: A Java agent has been loaded dynamically (/Users/yunkim/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.14.12/be4984cb6fd1ef1d11f218a648889dfda44b8a15/byte-buddy-agent-1.14.12.jar)
 WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
