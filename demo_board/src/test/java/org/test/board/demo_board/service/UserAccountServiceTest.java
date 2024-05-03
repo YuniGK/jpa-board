@@ -101,8 +101,7 @@ class UserAccountServiceTest {
                 .hasFieldOrPropertyWithValue("email", userAccount.getEmail())
                 .hasFieldOrPropertyWithValue("nickname", userAccount.getNickname())
                 .hasFieldOrPropertyWithValue("memo", userAccount.getMemo())
-                .hasFieldOrPropertyWithValue("createdBy", userAccount.getUserId())
-                .hasFieldOrPropertyWithValue("modifiedBy", userAccount.getUserId());
+                .hasFieldOrPropertyWithValue("createdBy", userAccount.getUserId());
         then(userAccountRepository).should().save(userAccount);
     }
 
@@ -135,14 +134,14 @@ class UserAccountServiceTest {
     }
 
     private UserAccount createUserAccount(String username) {
-        return createUserAccount(username, Set.of(RoleType.USER), null);
+        return createUserAccount(username, Set.of(RoleType.USER));
     }
 
     private UserAccount createSigningUpUserAccount(String username, Set<RoleType> roleTypes) {
-        return createUserAccount(username, roleTypes, username);
+        return createUserAccount(username, roleTypes);
     }
 
-    private UserAccount createUserAccount(String username, Set<RoleType> roleTypes, String createdBy) {
+    private UserAccount createUserAccount(String username, Set<RoleType> roleTypes) {
         return UserAccount.of(
                 username,
                 "password",
@@ -150,7 +149,7 @@ class UserAccountServiceTest {
                 "e@mail.com",
                 "nickname",
                 "memo",
-                createdBy
+                username
         );
     }
 }

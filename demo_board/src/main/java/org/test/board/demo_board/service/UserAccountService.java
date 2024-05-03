@@ -32,10 +32,14 @@ public class UserAccountService {
         );
     }
 
-    public void deleteUser(String userId) {
+    @Transactional(readOnly = true)
+    public List<UserAccountDto> users() {
+        return userAccountRepository.findAll().stream()
+                .map(UserAccountDto::from)
+                .toList();
     }
 
-    public List<UserAccountDto> users() {
-        return List.of();
+    public void deleteUser(String username) {
+        userAccountRepository.deleteById(username);
     }
 }
