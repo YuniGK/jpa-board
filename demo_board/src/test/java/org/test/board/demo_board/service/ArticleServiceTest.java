@@ -15,6 +15,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.test.board.demo_board.domain.Article;
 import org.test.board.demo_board.domain.Hashtag;
 import org.test.board.demo_board.domain.UserAccount;
+import org.test.board.demo_board.domain.constant.RoleType;
 import org.test.board.demo_board.domain.constant.SearchType;
 import org.test.board.demo_board.dto.ArticleDto;
 import org.test.board.demo_board.dto.ArticleWithCommentsDto;
@@ -362,9 +363,11 @@ class ArticleServiceTest {
         return UserAccount.of(
                 userId,
                 "password",
-                "test@email.com",
-                "Test",
-                null
+                Set.of(RoleType.USER),
+                "e@mail.com",
+                "nickname",
+                "memo",
+                userId
         );
     }
 
@@ -423,9 +426,12 @@ class ArticleServiceTest {
         return UserAccountDto.of(
                 "test",
                 "password",
+                Set.of(RoleType.USER),
                 "test@mail.com",
                 "Test",
                 "This is memo",
+                null,
+                null,
                 LocalDateTime.now(),
                 "test",
                 LocalDateTime.now(),
