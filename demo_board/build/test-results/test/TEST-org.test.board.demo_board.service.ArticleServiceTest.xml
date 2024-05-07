@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="비즈니스 로직 - 게시글" tests="16" skipped="0" failures="0" errors="0" timestamp="2024-05-03T09:48:22" hostname="Yunui-MacBookAir.local" time="1.005">
+<testsuite name="비즈니스 로직 - 게시글" tests="16" skipped="0" failures="0" errors="0" timestamp="2024-05-07T06:15:34" hostname="Yunui-MacBookAir.local" time="0.862">
   <properties/>
-  <testcase name="게시글을 해시태그 검색하면, 게시글 페이지를 반환한다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.859"/>
-  <testcase name="게시글 작성자가 아닌 사람이 수정 정보를 입력하면, 아무 것도 하지 않는다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.004"/>
-  <testcase name="없는 게시글의 수정 정보를 입력하면, 경고 로그를 찍고 아무 것도 하지 않는다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.009"/>
-  <testcase name="게시글을 조회하면, 게시글을 반환한다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.011"/>
-  <testcase name="해시태그를 조회하면, 유니크 해시태그 리스트를 반환한다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.005"/>
-  <testcase name="검색어 없이 게시글을 검색하면, 게시글 페이지를 반환한다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.007"/>
-  <testcase name="게시글 ID로 조회하면, 댓글 달긴 게시글을 반환한다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.01"/>
+  <testcase name="게시글을 해시태그 검색하면, 게시글 페이지를 반환한다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.76"/>
+  <testcase name="게시글 작성자가 아닌 사람이 수정 정보를 입력하면, 아무 것도 하지 않는다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.005"/>
+  <testcase name="없는 게시글의 수정 정보를 입력하면, 경고 로그를 찍고 아무 것도 하지 않는다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.008"/>
+  <testcase name="게시글을 조회하면, 게시글을 반환한다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.007"/>
+  <testcase name="해시태그를 조회하면, 유니크 해시태그 리스트를 반환한다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.003"/>
+  <testcase name="검색어 없이 게시글을 검색하면, 게시글 페이지를 반환한다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.003"/>
+  <testcase name="게시글 ID로 조회하면, 댓글 달긴 게시글을 반환한다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.006"/>
   <testcase name="없는 해시태그를 검색하면, 빈 페이지를 반환한다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.002"/>
   <testcase name="게시글이 없으면, 예외를 던진다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.004"/>
   <testcase name="게시글 정보를 입력하면, 본문에서 해시태그 정보를 추출하여 해시태그 정보가 포함된 게시글을 생성한다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.007"/>
-  <testcase name="댓글 달린 게시글이 없으면, 예외를 던진다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.005"/>
-  <testcase name="게시글 수를 조회하면, 게시글 수를 반환한다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.006"/>
+  <testcase name="댓글 달린 게시글이 없으면, 예외를 던진다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.003"/>
+  <testcase name="게시글 수를 조회하면, 게시글 수를 반환한다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.003"/>
   <testcase name="검색어 없이 게시글을 해시태그 검색하면, 빈 페이지를 반환한다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.002"/>
-  <testcase name="검색어와 함께 게시글을 검색하면, 게시글 페이지를 반환한다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.006"/>
-  <testcase name="게시글의 ID를 입력하면, 게시글을 삭제한다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.006"/>
-  <testcase name="게시글의 수정 정보를 입력하면, 게시글을 수정한다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.041"/>
-  <system-out><![CDATA[18:48:23.558 [Test worker] WARN org.test.board.demo_board.service.ArticleService -- 게시글 업데이트 실패. 게시글을 수정하는데 필요한 정보를 찾을 수 없습니다 - null
+  <testcase name="검색어와 함께 게시글을 검색하면, 게시글 페이지를 반환한다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.004"/>
+  <testcase name="게시글의 ID를 입력하면, 게시글을 삭제한다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.005"/>
+  <testcase name="게시글의 수정 정보를 입력하면, 게시글을 수정한다." classname="org.test.board.demo_board.service.ArticleServiceTest" time="0.028"/>
+  <system-out><![CDATA[15:15:35.425 [Test worker] WARN org.test.board.demo_board.service.ArticleService -- 게시글 업데이트 실패. 게시글을 수정하는데 필요한 정보를 찾을 수 없습니다 - null
 ]]></system-out>
   <system-err><![CDATA[WARNING: A Java agent has been loaded dynamically (/Users/yunkim/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.14.12/be4984cb6fd1ef1d11f218a648889dfda44b8a15/byte-buddy-agent-1.14.12.jar)
 WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
