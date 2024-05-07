@@ -92,6 +92,7 @@ class ArticleServiceTest {
 
         // Then
         assertThat(articles).isEqualTo(Page.empty(pageable));
+                                //상호작용을 하지 않는다?
         then(hashtagRepository).shouldHaveNoInteractions();
         then(articleRepository).shouldHaveNoInteractions();
     }
@@ -146,6 +147,7 @@ class ArticleServiceTest {
                 .hasFieldOrPropertyWithValue("content", article.getContent())
                 .hasFieldOrPropertyWithValue("hashtagDtos", article.getHashtags().stream()
                         .map(HashtagDto::from)
+                                            //Set 자료형을 만들어 줌
                         .collect(Collectors.toUnmodifiableSet())
                 );
         then(articleRepository).should().findById(articleId);
@@ -163,6 +165,9 @@ class ArticleServiceTest {
 
         // Then
         assertThat(t)
+                /* isInstanceOf - 해당 타입의 인스턴스인지를 비교, 객체가 특정 클래스나 인터페이스로부터 생성된 것인지를 판별
+                *               예외가 발생했을 때, 던져지는 예외 클래스가 'isInstanceOf()'로 전달
+                * hasMessage - 예외 메시지 정보를 담는다. */
                 .isInstanceOf(EntityNotFoundException.class)
                 .hasMessage("게시글이 없습니다 - articleId: " + articleId);
         then(articleRepository).should().findById(articleId);
@@ -216,6 +221,13 @@ class ArticleServiceTest {
         Set<Hashtag> expectedHashtags = new HashSet<>();
         expectedHashtags.add(createHashtag("java"));
 
+        /* findById vs getReferenceById
+        * findById - Optional<T> findById(ID id)
+        *            조회된 엔티티를 Optional로 감싼 반환 타입입니다.
+        *            Optional은 엔티티가 존재하지 않을 수도 있는 경우에 사용
+        *
+        * getReferenceById - 지연로딩(Lazy Loading) :  엔티티를 실제로 사용할 때까지 데이터베이스 조회를 지연
+        *                    실제 엔티티 객체가 필요한 시점에서는 프록시 객체가 아닌 실제 엔티티를 반환합니다. 처음에는 Proxy객체로 가지고 있음 */
         given(userAccountRepository.getReferenceById(dto.userAccountDto().userId())).willReturn(createUserAccount());
         given(hashtagService.parseHashtagNames(dto.content())).willReturn(expectedHashtagNames);
         given(hashtagService.findHashtagsByNames(expectedHashtagNames)).willReturn(expectedHashtags);
@@ -252,11 +264,31 @@ class ArticleServiceTest {
 
         // Then
         assertThat(article)
+                /* hasFieldOrPropertyWithValue - title 값은 dto.title() 같다 */
                 .hasFieldOrPropertyWithValue("title", dto.title())
                 .hasFieldOrPropertyWithValue("content", dto.content())
+                /* extracting - 특정 필드를 추출하여 테스트
+                *               추출할 데이터가 하나라면 타입 지정이 가능
+                *               여러 데이터를 추출한 후 assertj에서 지원해주는 tuple로 테스트
+                *
+                * as - 테스트 실패 시 나타낼 메시지를 표현
+                *       검증 문 앞에 작성해야 하며 뒤에 작성 시 호출되지 않습니다.*/
                 .extracting("hashtags", as(InstanceOfAssertFactories.COLLECTION))
                 .hasSize(1)
                 .extracting("hashtagName")
+                /* 컬렉션안에 값이 포함(contain)되어 있는지
+                * // 포함되어 있니
+                * assertThat(list).contains("1", "2");
+                * // 중복된 값도 반영됨
+                * assertThat(list).containsOnly("2","1","3");
+                * // 순서 까지 정확해야함
+                * assertThat(list).containsExactly("1", "1", "2", "3");
+                * // 순서 정확하지 않아도됨
+                * assertThat(list).containsExactlyInAnyOrder("2", "3", "1", "1");
+                * assertThat(list).contains("1").contains("1").containsSequence("2", "3");
+                * // 오직 한번만 있는 값들
+                * assertThat(list).containsOnlyOnce("2", "3");
+                * assertThat(list).containsAnyOf("2"); */
                 .containsExactly("springboot");
         then(articleRepository).should().getReferenceById(dto.id());
         then(userAccountRepository).should().getReferenceById(dto.userAccountDto().userId());
