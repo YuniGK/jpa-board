@@ -1,18 +1,26 @@
 package org.test.board.demo_board.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.test.board.demo_board.domain.Article;
+import org.test.board.demo_board.domain.Hashtag;
+import org.test.board.demo_board.domain.UserAccount;
 import org.test.board.demo_board.domain.constant.SearchType;
 import org.test.board.demo_board.dto.ArticleDto;
+import org.test.board.demo_board.dto.ArticleWithCommentsDto;
 import org.test.board.demo_board.repository.ArticleRepository;
 import org.test.board.demo_board.repository.HashtagRepository;
 import org.test.board.demo_board.repository.UserAccountRepository;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -41,5 +49,99 @@ public class ArticleService {
                     )
                     .map(ArticleDto::from);
         };
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ArticleDto> searchArticlesViaHashtag(String hashtagName, Pageable pageable) {
+        if (hashtagName == null || hashtagName.isBlank()) {
+            return Page.empty(pageable);
+        }
+
+        return articleRepository.findByHashtagNames(List.of(hashtagName), pageable)
+                .map(ArticleDto::from);
+    }
+
+    @Transactional(readOnly = true)
+    public ArticleWithCommentsDto getArticleWithComments(Long articleId) {
+        return articleRepository.findById(articleId)
+                .map(ArticleWithCommentsDto::from)
+                .orElseThrow(() -> new EntityNotFoundException("게시글이 없습니다 - articleId: " + articleId));
+    }
+
+    @Transactional(readOnly = true)
+    public ArticleDto getArticle(Long articleId) {
+        return articleRepository.findById(articleId)
+                .map(ArticleDto::from)
+                .orElseThrow(() -> new EntityNotFoundException("게시글이 없습니다 - articleId: " + articleId));
+    }
+
+    public void saveArticle(ArticleDto dto) {
+        UserAccount userAccount = userAccountRepository.getReferenceById(dto.userAccountDto().userId());
+        Set<Hashtag> hashtags = renewHashtagsFromContent(dto.content());
+
+        Article article = dto.toEntity(userAccount);
+        article.addHashtags(hashtags);
+        articleRepository.save(article);
+    }
+
+    public void updateArticle(Long articleId, ArticleDto dto) {
+        try {
+            Article article = articleRepository.getReferenceById(articleId);
+            UserAccount userAccount = userAccountRepository.getReferenceById(dto.userAccountDto().userId());
+
+            if (article.getUserAccount().equals(userAccount)) {
+                if (dto.title() != null) { article.setTitle(dto.title()); }
+                if (dto.content() != null) { article.setContent(dto.content()); }
+
+                Set<Long> hashtagIds = article.getHashtags().stream()
+                        .map(Hashtag::getId)
+                        .collect(Collectors.toUnmodifiableSet());
+                article.clearHashtags();
+                articleRepository.flush();
+
+                hashtagIds.forEach(hashtagService::deleteHashtagWithoutArticles);
+
+                Set<Hashtag> hashtags = renewHashtagsFromContent(dto.content());
+                article.addHashtags(hashtags);
+            }
+        } catch (EntityNotFoundException e) {
+            log.warn("게시글 업데이트 실패. 게시글을 수정하는데 필요한 정보를 찾을 수 없습니다 - {}", e.getLocalizedMessage());
+        }
+    }
+
+    public void deleteArticle(long articleId, String userId) {
+        Article article = articleRepository.getReferenceById(articleId);
+        Set<Long> hashtagIds = article.getHashtags().stream()
+                .map(Hashtag::getId)
+                .collect(Collectors.toUnmodifiableSet());
+
+        articleRepository.deleteByIdAndUserAccount_UserId(articleId, userId);
+        articleRepository.flush();
+
+        hashtagIds.forEach(hashtagService::deleteHashtagWithoutArticles);
+    }
+
+    public long getArticleCount() {
+        return articleRepository.count();
+    }
+
+    public List<String> getHashtags() {
+        return hashtagRepository.findAllHashtagNames(); // TODO: HashtagService 로 이동을 고려해보자.
+    }
+
+    private Set<Hashtag> renewHashtagsFromContent(String content) {
+        Set<String> hashtagNamesInContent = hashtagService.parseHashtagNames(content);
+        Set<Hashtag> hashtags = hashtagService.findHashtagsByNames(hashtagNamesInContent);
+        Set<String> existingHashtagNames = hashtags.stream()
+                .map(Hashtag::getHashtagName)
+                .collect(Collectors.toUnmodifiableSet());
+
+        hashtagNamesInContent.forEach(newHashtagName -> {
+            if (!existingHashtagNames.contains(newHashtagName)) {
+                hashtags.add(Hashtag.of(newHashtagName));
+            }
+        });
+
+        return hashtags;
     }
 }
