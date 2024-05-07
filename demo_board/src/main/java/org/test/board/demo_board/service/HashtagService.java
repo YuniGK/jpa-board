@@ -28,10 +28,14 @@ public class HashtagService {
         }
 
         Pattern pattern = Pattern.compile("#[\\w가-힣]+");
+        /* trim vs strip
+        * trim() - '\u0020' 이하의 공백들만 제거
+        * strip() - 유니코드의 공백들을 모두 제거 */
         Matcher matcher = pattern.matcher(content.strip());
         Set<String> result = new HashSet<>();
 
         while (matcher.find()) {
+            //#제거
             result.add(matcher.group().replace("#", ""));
         }
 
