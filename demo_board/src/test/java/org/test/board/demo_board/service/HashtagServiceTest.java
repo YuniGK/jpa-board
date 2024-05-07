@@ -31,7 +31,7 @@ class HashtagServiceTest {
     private HashtagRepository hashtagRepository;
 
     @DisplayName("본문을 파싱하면, 해시태그 이름들을 중복 없이 반환한다.")
-    @MethodSource/* 복잡한 인수들을 파라미터로 넘길 수 있다. Stream를 반환하는 static 메서드를 작성 */
+    @MethodSource/* @MethodSource - 복잡한 인수들을 파라미터로 넘길 수 있다. Stream를 반환하는 static 메서드를 작성 */
     @ParameterizedTest(name = "[{index}] \"{0}\" => {1}")/* @ParameterizedTest - 여러 개의 테스트를 한번에 작성 */
     void givenContent_whenParsing_thenReturnsUniqueHashtagNames(String input, Set<String> expected) {
         // Given
