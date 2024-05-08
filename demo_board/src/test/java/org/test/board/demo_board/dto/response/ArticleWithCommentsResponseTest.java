@@ -39,6 +39,9 @@ class ArticleWithCommentsResponseTest {
 
         // Then
         assertThat(actual.articleCommentsResponse())
+                /* containsOnly vs containsExactly
+                * containsOnly: 순서, 중복을 무시하는 대신 원소값과 갯수가 정확히 일치
+                * containsExactly: 순서를 포함해서 정확히 일치 */
                 .containsExactly(
                         createArticleCommentResponse(8L, null, now.plusDays(7L)),
                         createArticleCommentResponse(5L, null, now.plusDays(5L)),
