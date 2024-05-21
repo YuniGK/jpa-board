@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public record BoardAdminPrincipal(
+public record BoardPrincipal(
         String username,
         String password,
         Collection<? extends GrantedAuthority> authorities,
@@ -21,12 +21,12 @@ public record BoardAdminPrincipal(
         String memo,
         Map<String, Object> oAuth2Attributes
 ) implements OAuth2User, UserDetails {
-    public static BoardAdminPrincipal of(String username, String password, Set<RoleType> roleTypes, String email, String nickname, String memo) {
-        return BoardAdminPrincipal.of(username, password, roleTypes, email, nickname, memo, Map.of());
+    public static BoardPrincipal of(String username, String password, Set<RoleType> roleTypes, String email, String nickname, String memo) {
+        return BoardPrincipal.of(username, password, roleTypes, email, nickname, memo, Map.of());
     }
 
-    public static BoardAdminPrincipal of(String username, String password, Set<RoleType> roleTypes, String email, String nickname, String memo, Map<String, Object> oAuth2Attributes) {
-        return new BoardAdminPrincipal(
+    public static BoardPrincipal of(String username, String password, Set<RoleType> roleTypes, String email, String nickname, String memo, Map<String, Object> oAuth2Attributes) {
+        return new BoardPrincipal(
                 username,
                 password,
                 roleTypes.stream()
@@ -41,8 +41,8 @@ public record BoardAdminPrincipal(
         );
     }
 
-    public static BoardAdminPrincipal from(UserAccountDto dto) {
-        return BoardAdminPrincipal.of(
+    public static BoardPrincipal from(UserAccountDto dto) {
+        return BoardPrincipal.of(
                 dto.userId(),
                 dto.userPassword(),
                 dto.roleTypes(),

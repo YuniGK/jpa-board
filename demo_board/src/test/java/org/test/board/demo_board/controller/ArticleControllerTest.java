@@ -28,6 +28,7 @@ import org.test.board.demo_board.dto.request.ArticleRequest;
 import org.test.board.demo_board.dto.response.ArticleResponse;
 import org.test.board.demo_board.service.ArticleService;
 import org.test.board.demo_board.service.PaginationService;
+import org.test.board.demo_board.service.UserAccountService;
 import org.test.board.demo_board.util.FormDataEncoder;
 
 import java.time.LocalDateTime;
@@ -162,12 +163,13 @@ class ArticleControllerTest {
         // Given
         long articleId = 1L;
 
+        /* is3xxRedirection - 로그인 여부 확인, 로그인 되지 않았으면 로그인 페이지로 이동한다.
+         * 302(Found - 영구 리다이렉션) redirection이 발생했는지 확인
+         *
+         * https://inpa.tistory.com/entry/HTTP-🌐-3XX-Redirection-상태-코드-제대로-알아보기 */
+
         // When & Then
         mvc.perform(get("/articles/" + articleId))
-                /* is3xxRedirection - 로그인 여부 확인, 로그인 되지 않았으면 로그인 페이지로 이동한다.
-                * 302(Found - 영구 리다이렉션) redirection이 발생했는지 확인
-                *
-                * https://inpa.tistory.com/entry/HTTP-🌐-3XX-Redirection-상태-코드-제대로-알아보기 */
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("**/login"));
         then(articleService).shouldHaveNoInteractions();
@@ -274,13 +276,20 @@ class ArticleControllerTest {
                 .andExpect(model().attribute("formStatus", FormStatus.CREATE));
     }
 
-    @WithUserDetails(value = "unoTest", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @WithUserDetails(value = "test", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @DisplayName("[view][POST] 새 게시글 등록 - 정상 호출")
     @Test
     void givenNewArticleInfo_whenRequesting_thenSavesNewArticle() throws Exception {
         // Given
         ArticleRequest articleRequest = ArticleRequest.of("new title", "new content");
         willDoNothing().given(articleService).saveArticle(any(ArticleDto.class));
+
+        /* CSRF - Cross site Request forgery로 사이즈간 위조 요청, 즉 정상적인 사용자가 의도치 않은 위조요청을 보내는 것
+        *           ( 사이트 간 요청 위조(Cross-site request forgery, CSRF)는 웹사이트 취약점 공격,
+        *           사용자가 자신의 의지와는 무관하게 공격자가 의도한 행위(수정, 삭제, 등록 등)를 특정 웹사이트에 요청하게 하는 공격 )
+        * CSRF protection은 spring security에서 default로 설정된다.
+        * 즉, protection을 통해 GET요청을 제외한 상태를 변화시킬 수 있는 POST, PUT, DELETE 요청으로부터 보호
+        * csrf 토큰이 포함되어야 요청을 받아들이게 됨으로써, 위조 요청을 방지 */
 
         // When & Then
         mvc.perform(
@@ -327,7 +336,7 @@ class ArticleControllerTest {
         then(articleService).should().getArticle(articleId);
     }
 
-    @WithUserDetails(value = "unoTest", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @WithUserDetails(value = "test", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @DisplayName("[view][POST] 게시글 수정 - 정상 호출")
     @Test
     void givenUpdatedArticleInfo_whenRequesting_thenUpdatesNewArticle() throws Exception {
@@ -349,13 +358,13 @@ class ArticleControllerTest {
         then(articleService).should().updateArticle(eq(articleId), any(ArticleDto.class));
     }
 
-    @WithUserDetails(value = "unoTest", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @WithUserDetails(value = "test", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @DisplayName("[view][POST] 게시글 삭제 - 정상 호출")
     @Test
     void givenArticleIdToDelete_whenRequesting_thenDeletesArticle() throws Exception {
         // Given
         long articleId = 1L;
-        String userId = "unoTest";
+        String userId = "test";
         willDoNothing().given(articleService).deleteArticle(articleId, userId);
 
         // When & Then

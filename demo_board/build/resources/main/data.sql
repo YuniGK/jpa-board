@@ -14,3 +14,12 @@ Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus 
 Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.
 #pink', 'Kamilah', 'Murial', '2021-05-30 23:53:46', '2021-03-10 08:48:50')
 ;
+
+insert into article_comment (article_id, user_id, parent_comment_id, content, created_at, modified_at, created_by, modified_by) values
+(49, 'test', null, 'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.', '2021-03-02 22:40:04', '2021-04-27 15:38:09', 'Lind', 'Orv');
+
+insert into article_comment (article_id, user_id, parent_comment_id, content, created_at, modified_at, created_by, modified_by) values
+(49, 'test', 1, '퍼가요~', '2021-03-02 22:40:04', '2021-04-27 15:38:09', 'Test', 'Test');
+
+insert into article_hashtag (article_id, hashtag_id) values
+(1, 11);
