@@ -8,10 +8,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.TestExecutionEvent;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.test.board.demo_board.config.TestSecurityConfig;
+import org.test.board.demo_board.domain.constant.RoleType;
 import org.test.board.demo_board.dto.ArticleCommentDto;
 import org.test.board.demo_board.dto.request.ArticleCommentRequest;
 import org.test.board.demo_board.service.ArticleCommentService;
@@ -44,7 +46,14 @@ class ArticleCommentControllerTest {
         this.formDataEncoder = formDataEncoder;
     }
 
-    @WithUserDetails(value = "test", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    /* @WithMockUser
+    * - username, password, roles 을 Mock 으로 넣어줌, UserDetails 객체를 만들어주는 것
+    * - 직접 만든 Authentication 인증정보는 사용 불가
+    *
+    * @WithUserDetails
+    * - UserDetails 객체를 조회해서 SecurityContext 를 만든다 */
+    @WithMockUser(username = "test", roles = "USER")
+    //@WithUserDetails(value = "test", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @DisplayName("[view][POST] 댓글 등록 - 정상 호출")
     @Test
     void givenArticleCommentInfo_whenRequesting_thenSavesNewArticleComment() throws Exception {
