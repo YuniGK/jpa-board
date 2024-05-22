@@ -172,7 +172,7 @@ class ArticleControllerTest {
         mvc.perform(get("/articles/" + articleId))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("**/login"));
-        then(articleService).shouldHaveNoInteractions();
+
         then(articleService).shouldHaveNoInteractions();
     }
 
