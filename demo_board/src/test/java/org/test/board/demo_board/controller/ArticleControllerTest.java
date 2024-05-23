@@ -340,8 +340,11 @@ class ArticleControllerTest {
     /* @WithMockUser
     - 401 비로그인 상태에서 권한이 필요한 요청을 했을 때
     - 403 로그인 했으나 권한이 맞지 않는 경우 발생
-    */
+
     @WithMockUser(username = "test2", roles = "USER")
+    @WithMockUser(username = "test2", roles = { "USER", "ADMIN" })
+    */
+    @WithUserDetails(value = "test2", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @DisplayName("[view][POST] 게시글 수정 - 정상 호출")
     @Test
     void givenUpdatedArticleInfo_whenRequesting_thenUpdatesNewArticle() throws Exception {
