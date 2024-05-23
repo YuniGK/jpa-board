@@ -50,6 +50,9 @@ class ArticleCommentControllerTest {
     * - username, password, roles 을 Mock 으로 넣어줌, UserDetails 객체를 만들어주는 것
     * - 직접 만든 Authentication 인증정보는 사용 불가
     *
+    * @WithAnonymousUser
+    * - 미인증 사용자
+    *
     * @WithUserDetails
     * - UserDetails 객체를 조회해서 SecurityContext 를 만든다 */
     @WithMockUser(username = "test", roles = "USER")
